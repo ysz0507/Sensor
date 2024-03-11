@@ -48,6 +48,17 @@ void setup()
     Serial.printf("setup time: %.4fs\n\n", (millis() - lastMeasurement) / 1000.0);
     lastMeasurement = getTime();
     digitalWrite(led, HIGH);
+
+    addMeasurement();
+    addMeasurement();
+    addMeasurement();
+    addMeasurement();
+    addMeasurement();
+    addMeasurement();
+    addMeasurement();
+    addMeasurement();
+    addMeasurement();
+    addMeasurement();
 }
 
 void loop()

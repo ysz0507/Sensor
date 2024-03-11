@@ -15,7 +15,7 @@ long long getTime()
 
 void refreshTime()
 {
-    if (millis() - lastTimeSync > 1000 * 60)
+    if (millis() - lastTimeSync > 1000 * 60 * 2)
     {
         Serial.println("Refreshing time");
         long long newTime = getCurrentTime();

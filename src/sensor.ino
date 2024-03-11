@@ -21,7 +21,8 @@ void setupSensor()
     }
 }
 
-String *measurements[] = {new String(), new String(), new String(), new String(), new String(), new String(), new String(), new String(), new String(), new String()};
+const unsigned int NUMBER_OF_SAVED_ENTRIES = 10;
+char **measurements = (char **)calloc(NUMBER_OF_SAVED_ENTRIES, sizeof(char *));
 
 String getSensorData()
 {
@@ -29,11 +30,11 @@ String getSensorData()
     aht.getEvent(&humidity, &temp);
     // fillRandomData(&humidity, &temp);
 
-    String jsonObjectString = "{\n";
-    jsonObjectString += "\"temperature\": " + String(temp.temperature) + ",\n";
-    jsonObjectString += "\"relHumidity\": " + String(humidity.relative_humidity) + ",\n";
-    jsonObjectString += "\"time\": " + String(getTime()) + "\n";
-    jsonObjectString += "}";
+    String jsonObjectString = String("{\n");
+    jsonObjectString += String("\"temperature\": ") + String(temp.temperature) + String(",\n");
+    jsonObjectString += String("\"relHumidity\": ") + String(humidity.relative_humidity) + String(",\n");
+    jsonObjectString += String("\"time\": ") + String(getTime()) + String("\n");
+    jsonObjectString += String("}");
 
     return jsonObjectString;
 }
@@ -41,32 +42,39 @@ String getSensorData()
 String getAllMeasurements()
 {
     String jsonListString = "[";
-    for (int i = 0; i < sizeof(measurements) / 4; i++)
+    for (unsigned int i = 0; i < NUMBER_OF_SAVED_ENTRIES; i++)
     {
-        if (*(measurements[i]) == "")
+        Serial.println(measurements[i]);
+        if (measurements[i] == 0x0)
         {
             continue;
         }
-        jsonListString += *(measurements[i]);
-        if (i != (sizeof(measurements) / 4) - 1)
+        jsonListString += String(measurements[i]);
+        if (i != NUMBER_OF_SAVED_ENTRIES - 1)
         {
-            jsonListString += ",\n";
+            jsonListString += String(",\n");
         }
     }
-    jsonListString += "]";
+    jsonListString += String("]");
     return jsonListString;
 }
 
 void addMeasurement()
 {
     Serial.println("Adding automated measurement");
-    free(measurements[0]);
-    for (int i = 0; i < (sizeof(measurements) / 4) - 1; i++)
+    if (measurements[0] != 0x0)
+    {
+        free(measurements[0]);
+    }
+    for (unsigned int i = 0; i < NUMBER_OF_SAVED_ENTRIES - 1; i++)
     {
         measurements[i] = measurements[i + 1];
     }
-    String *newMeasurement = new String(getSensorData());
-    measurements[(sizeof(measurements) / 4) - 1] = newMeasurement;
+    String sensorDataString = getSensorData();
+    const char *newMeasurement = sensorDataString.c_str();
+    char *ptr = (char *)malloc(200);
+    measurements[NUMBER_OF_SAVED_ENTRIES - 1] = ptr;
+    strcpy(measurements[NUMBER_OF_SAVED_ENTRIES - 1], newMeasurement);
 }
 
 void fillRandomData(sensors_event_t *humidity, sensors_event_t *temp)
