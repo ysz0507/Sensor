@@ -15,8 +15,6 @@ void setup()
     // Sensor Setup
     setupSensor();
 
-    Serial.println(sizeof(long));
-
     // Server Setup
     ESP8266WebServer *server = setupServer();
 
