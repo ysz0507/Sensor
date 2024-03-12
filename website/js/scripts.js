@@ -22,6 +22,8 @@ function setupRadioButtons(chart, callback) {
                     callback();
                 }
                 console.log(button.getAttribute("ip") + " is online");
+            } else {
+                console.log("Error while pinging " + button.getAttribute("ip") + "/status.json")
             }
         };
         ping.onerror = function () {
@@ -188,7 +190,7 @@ function reload(chart) {
     };
 
     var his = new XMLHttpRequest();
-    his.open("GET", serverUrl + "/all");
+    his.open("GET", serverUrl + "/all.json");
     his.send();
     his.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
