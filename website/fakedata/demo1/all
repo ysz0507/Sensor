@@ -1,0 +1,50 @@
+[{
+"temperature": 25.00,
+"relHumidity": 40.00,
+"time": 1680374840349
+},
+{
+"temperature": 25.00,
+"relHumidity": 45.00,
+"time": 1680374853302
+},
+{
+"temperature": 25.00,
+"relHumidity": 55.00,
+"time": 1680374875283
+},
+{
+"temperature": 27.00,
+"relHumidity": 59.00,
+"time": 1680374891123
+},
+{
+"temperature": 20.00,
+"relHumidity": 56.00,
+"time": 1680374908829
+},
+{
+"temperature": 29.00,
+"relHumidity": 39.00,
+"time": 1680374929670
+},
+{
+"temperature": 29.00,
+"relHumidity": 36.00,
+"time": 1680374974341
+},
+{
+"temperature": 25.00,
+"relHumidity": 42.00,
+"time": 1680374984522
+},
+{
+"temperature": 27.00,
+"relHumidity": 44.00,
+"time": 1680374998062
+},
+{
+"temperature": 20.00,
+"relHumidity": 45.00,
+"time": 1680375008820
+}]

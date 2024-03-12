@@ -1,0 +1,54 @@
+.main_div {
+    margin: 0 auto;
+    padding: 10px;
+    width: 90%;
+    max-width: 800px;
+}
+
+.fadeout {
+    transition: opacity 4s ease-in;
+}
+
+.movement {
+    height: 0px;
+    transition: height 0.5s ease-in;
+}
+
+table {
+    width: 100%;
+    table-layout: fixed;
+}
+
+table th {
+    word-wrap: break-word;
+}
+
+table span {
+    display: inline-block;
+}
+
+@media (max-width: 850px) {
+    .paper {
+        font-size: calc(44.5px - 3vw);
+    }
+
+    .paper h2 {
+        margin: 0;
+    }
+}
+
+@media (max-width: 680px) {
+    .paper {
+        font-size: 22px;
+    }
+
+    .small {
+        font-size: 20px;
+    }
+}
+
+.center>* {
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}

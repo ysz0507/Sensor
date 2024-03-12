@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <link rel="stylesheet" href="https://ysz0507.github.io/room-monitoring/website/css/flat-remix.min.css">
+    <script>
+        window.Promise ||
+            document.write(
+                '<script src="https://cdn.jsdelivr.net/npm/promise-polyfill@8/dist/polyfill.min.js"><\/script>'
+            )
+        window.Promise ||
+            document.write(
+                '<script src="https://cdn.jsdelivr.net/npm/eligrey-classlist-js-polyfill@1.2.20171210/classList.min.js"><\/script>'
+            )
+        window.Promise ||
+            document.write(
+                '<script src="https://cdn.jsdelivr.net/npm/findindex_polyfill_mdn"><\/script>'
+            )
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+
+    <title>Sensor</title>
+    <link rel="stylesheet" href="https://ysz0507.github.io/room-monitoring/website/css/styles.css">
+
+    <!-- double include, for local hosting -->
+    <link rel="stylesheet" href="../css/flat-remix.min.css">
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+
+<body>
+    <div class="main_div">
+        <h1>Configuration</h1>
+        <div class="paper center">
+            <h2>
+                CallMeBot Signal API
+            </h2>
+            <div style="max-width: fit-content; user-select: text;">
+                <p>
+                    Send the message <a href="javascript:void(0);">"I allow callmebot to send me messages"</a> via
+                    Signal to <a href="tel:+34 644 10 55 84">+34 644 10 55 84</a>.
+                    You will reveive an Link. Enter the link below. For more information, please visit <a
+                        href="https://www.callmebot.com/blog/free-api-signal-send-messages/">the original page</a>.
+                </p>
+                <input id="url" type="text" placeholder="received link" style="width: 100%;" lastVal="">
+                <button id="submit-btn" class="blue-button" style="width: 100%; display: none"
+                    onclick="send()">Send</button>
+                <button id="fake-btn" style="width: 100%; pointer-events: none;">Send</button>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+
+<script>
+    function send_buttons() {
+        var regex = /^https:\/\/signal\.callmebot\.com\/signal\/send\.php\?phone=(\d|\-|[a-z]){35,40}&apikey=\d{6}&text=This\+is\+a\+test$/;
+        var url = document.getElementById("url").value;
+        if (regex.test(url)) {
+            document.querySelector('#fake-btn').style.display = "none";
+            document.querySelector('#submit-btn').style.display = "block";
+        } else {
+            document.querySelector('#fake-btn').style.display = "block";
+            document.querySelector('#submit-btn').style.display = "none";
+        }
+    }
+
+    document.querySelector("input").addEventListener('input', function (e) {
+        if (this.checkValidity()) {
+            send_buttons();
+            this.setAttribute('lastVal', this.value);
+        } else {
+            this.value = this.getAttribute('lastVal');
+        }
+    });
+
+    function send() {
+        var url = document.getElementById("url").value;
+        url = url.replace("This+is+a+test", "");
+        localStorage.setItem("key", url);
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", url + "Key+successfully+added+:)", true);
+        xhr.send();
+        window.location.href = "../";
+    }
+
+</script>
