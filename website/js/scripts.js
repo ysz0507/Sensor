@@ -200,18 +200,6 @@ function reload(chart) {
     };
 }
 
-function loadNotifications() {
-    var element = document.getElementById("notification");
-    if (localStorage.getItem("key") == null) {
-        var button = document.createElement("button");
-        button.innerHTML = "Authorize";
-        button.setAttribute("onclick", "window.location.assign('./authorize.html')");
-        button.classList.add("blue-button");
-        element.appendChild(button);
-    }
-
-}
-
 function initialize() {
     temperatureData = [];
     humidityData = [];
