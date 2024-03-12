@@ -5,7 +5,7 @@ function setupRadioButtons(chart, callback) {
     var buttons = document.getElementsByName('my-checktext');
     buttons.forEach(function (button) {
         var ping = new XMLHttpRequest();
-        ping.open("GET", button.getAttribute("ip") + "/status");
+        ping.open("GET", button.getAttribute("ip") + "/status.json");
         ping.send();
         ping.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {
@@ -177,7 +177,7 @@ function getChartConfig() {
 
 function reload(chart) {
     var current = new XMLHttpRequest();
-    current.open("GET", serverUrl + "/current");
+    current.open("GET", serverUrl + "/current.json");
     current.send();
     current.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {

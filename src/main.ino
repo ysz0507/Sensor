@@ -26,13 +26,13 @@ void setup()
     server->on("/authorize.html", [server]()
                {String website = getAuthSite(); 
                 server->send(200, "text/html", website); });
-    server->on("/status", [server]()
+    server->on("/status.json", [server]()
                {server->sendHeader("Access-Control-Allow-Origin", "*");
                 server->send(200, "text/html", "I am online"); });
-    server->on("/current", [server]()
+    server->on("/current.json", [server]()
                {server->sendHeader("Access-Control-Allow-Origin", "*");
                 server->send(200, "application/json", getSensorData()); });
-    server->on("/all", [server]()
+    server->on("/all.json", [server]()
                {server->sendHeader("Access-Control-Allow-Origin", "*");
                 server->send(200, "application/json", getAllMeasurements()); });
 

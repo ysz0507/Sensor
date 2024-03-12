@@ -44,7 +44,7 @@ String getSite()
     {
         refreshSite(&lastSite, "index.html");
     }
-    return lastSite == "" ? "<h1>Could not load main site into cache!</h1><a href=\"/all\">View all data</a> <br> <a href=\"/current\">View current data</a>" : lastSite;
+    return lastSite == "" ? "<h1>Could not load main site into cache!</h1><a href=\"/all.json\">View all data</a> <br> <a href=\"/current.json\">View current data</a>" : lastSite;
 }
 
 void refreshSite(String *cache, const char *path)
@@ -75,5 +75,5 @@ String getAuthSite()
     {
         refreshSite(&authSite, "authorize.html");
     }
-    return authSite == "" ? "<h1>Could not load auth site into cache!</h1><a href=\"/all\">View all data</a> <br> <a href=\"/current\">View current data</a>" : authSite;
+    return authSite == "" ? "<h1>Could not load auth site into cache!</h1><a href=\"/all.json\">View all data</a> <br> <a href=\"/current.json\">View current data</a>" : authSite;
 }
