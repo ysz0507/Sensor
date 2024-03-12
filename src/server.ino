@@ -48,7 +48,7 @@ String getWebsite(const char *path)
     HTTPClient https;
     String payload = "";
 
-    if (https.begin(*client, "https://ysz0507.github.io/room-monitoring/website/html/" + String(path)))
+    if (https.begin(*client, "https://ysz0507.github.io/Sensor/website/html/" + String(path)))
     {
         int httpCode = https.GET();
         if (httpCode > 0)
