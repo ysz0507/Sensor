@@ -59,7 +59,7 @@ String getAllMeasurements()
     return jsonListString;
 }
 
-void addMeasurement()
+const char *addMeasurement()
 {
     Serial.println("Adding automated measurement");
     if (measurements[0] != 0x0)
@@ -75,6 +75,7 @@ void addMeasurement()
     char *ptr = (char *)malloc(200);
     measurements[NUMBER_OF_SAVED_ENTRIES - 1] = ptr;
     strcpy(measurements[NUMBER_OF_SAVED_ENTRIES - 1], newMeasurement);
+    return measurements[NUMBER_OF_SAVED_ENTRIES - 1];
 }
 
 void fillRandomData(sensors_event_t *humidity, sensors_event_t *temp)

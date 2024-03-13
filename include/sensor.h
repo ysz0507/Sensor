@@ -6,4 +6,4 @@
 void setupSensor();
 String getSensorData();
 String getAllMeasurements();
-void addMeasurement();
+const char *addMeasurement();

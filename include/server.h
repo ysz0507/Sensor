@@ -8,3 +8,4 @@ ESP8266WebServer *setupServer();
 void serverLoop();
 String getWebsite(const char *path);
 long long getCurrentTime();
+void requestUrl(String url);

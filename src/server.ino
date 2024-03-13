@@ -105,3 +105,19 @@ long long getCurrentTime()
     }
     return strtoll(payload.c_str(), NULL, 10) * 1000LL;
 }
+
+void requestUrl(String url)
+{
+    std::unique_ptr<BearSSL::WiFiClientSecure> client(new BearSSL::WiFiClientSecure);
+    client->setInsecure();
+
+    HTTPClient https;
+    https.begin(*client, url);
+    int httpCode = https.GET();
+
+    if (httpCode != HTTP_CODE_OK)
+    {
+        Serial.printf("[HTTP] GET... failed, error: %s mit code: %d\n", https.errorToString(httpCode).c_str(), httpCode);
+    }
+    https.end();
+}

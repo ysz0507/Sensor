@@ -1,6 +1,7 @@
 #include "sensor.h"
 #include "server.h"
 #include "cache.h"
+#include "messages.h"
 
 long long lastMeasurement;
 const int led = 2;
@@ -66,7 +67,8 @@ void loop()
     serverLoop();
     if (getTime() - lastMeasurement > 1000 * 10)
     {
-        addMeasurement();
+        const char *measurement = addMeasurement();
+        messageLoop(measurement);
         lastMeasurement = getTime();
     }
     digitalWrite(led, HIGH);
