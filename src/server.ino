@@ -8,12 +8,8 @@
 #include <ESP8266HTTPClient.h>
 #include <WiFiClientSecureBearSSL.h>
 
-const char *ssid = "Soziales Netzwerk";
-const char *password = "erdghu643d";
+#include "keys.h"
 ESP8266WebServer server(80);
-const char *mdns_name = "esp8266";
-
-ESP8266WiFiMulti WiFiMulti;
 
 ESP8266WebServer *setupServer()
 {

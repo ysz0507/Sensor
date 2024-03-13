@@ -6,7 +6,6 @@ long long lastTime;
 long lastTimeSync = -1000L * 60L * 60L * 24L * 7L;
 
 String lastSite;
-String authSite;
 
 long long getTime()
 {
@@ -34,7 +33,6 @@ void initializeSites()
 {
     Serial.println("Initializing sites");
     refreshSite(&lastSite, "index.html");
-    refreshSite(&authSite, "authorize.html");
     Serial.println("Sites initialized\n");
 }
 
@@ -52,7 +50,7 @@ void refreshSite(String *cache, const char *path)
     Serial.println("Refreshing site");
     for (int i = 0; i < 3; i++)
     {
-        Serial.println(String(i + 1) + "st attempt");
+        Serial.println(String("attempt ") + String(i + 1));
         *cache = getWebsite(path);
         if (*cache != "")
         {
@@ -67,13 +65,4 @@ void refreshSite(String *cache, const char *path)
     {
         Serial.println("Site refreshed: " + String((*cache).length()) + "chars\n");
     }
-}
-
-String getAuthSite()
-{
-    if (authSite == "")
-    {
-        refreshSite(&authSite, "authorize.html");
-    }
-    return authSite == "" ? "<h1>Could not load auth site into cache!</h1><a href=\"/all.json\">View all data</a> <br> <a href=\"/current.json\">View current data</a>" : authSite;
 }

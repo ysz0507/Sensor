@@ -7,5 +7,4 @@ void refreshTime();
 
 String getSite();
 void refreshSite(String *cache);
-String getAuthSite();
 void initializeSites();

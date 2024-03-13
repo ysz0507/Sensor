@@ -24,19 +24,23 @@ void setupSensor()
 const unsigned int NUMBER_OF_SAVED_ENTRIES = 10;
 char **measurements = (char **)calloc(NUMBER_OF_SAVED_ENTRIES, sizeof(char *));
 
-String getSensorData()
+Measurement getSensorData()
 {
-    sensors_event_t humidity, temp;
-    aht.getEvent(&humidity, &temp);
+    struct Measurement newMeasurement;
+
+    aht.getEvent(&newMeasurement.humidity, &newMeasurement.temperature);
+    newMeasurement.time = getTime();
     // fillRandomData(&humidity, &temp);
 
     String jsonObjectString = String("{\n");
-    jsonObjectString += String("\"temperature\": ") + String(temp.temperature) + String(",\n");
-    jsonObjectString += String("\"relHumidity\": ") + String(humidity.relative_humidity) + String(",\n");
-    jsonObjectString += String("\"time\": ") + String(getTime()) + String("\n");
+    jsonObjectString += String("\"temperature\": ") + String(newMeasurement.temperature.temperature) + String(",\n");
+    jsonObjectString += String("\"relHumidity\": ") + String(newMeasurement.humidity.relative_humidity) + String(",\n");
+    jsonObjectString += String("\"time\": ") + String(newMeasurement.time) + String("\n");
     jsonObjectString += String("}");
 
-    return jsonObjectString;
+    newMeasurement.json = jsonObjectString;
+
+    return newMeasurement;
 }
 
 String getAllMeasurements()
@@ -44,7 +48,6 @@ String getAllMeasurements()
     String jsonListString = "[";
     for (unsigned int i = 0; i < NUMBER_OF_SAVED_ENTRIES; i++)
     {
-        Serial.println(measurements[i]);
         if (measurements[i] == 0x0)
         {
             continue;
@@ -59,7 +62,7 @@ String getAllMeasurements()
     return jsonListString;
 }
 
-const char *addMeasurement()
+Measurement addMeasurement()
 {
     Serial.println("Adding automated measurement");
     if (measurements[0] != 0x0)
@@ -70,12 +73,15 @@ const char *addMeasurement()
     {
         measurements[i] = measurements[i + 1];
     }
-    String sensorDataString = getSensorData();
-    const char *newMeasurement = sensorDataString.c_str();
+
+    Measurement newMeasurement = getSensorData();
+    const char *jsonMeasurement = newMeasurement.json.c_str();
+
     char *ptr = (char *)malloc(200);
     measurements[NUMBER_OF_SAVED_ENTRIES - 1] = ptr;
-    strcpy(measurements[NUMBER_OF_SAVED_ENTRIES - 1], newMeasurement);
-    return measurements[NUMBER_OF_SAVED_ENTRIES - 1];
+    strcpy(measurements[NUMBER_OF_SAVED_ENTRIES - 1], jsonMeasurement);
+
+    return newMeasurement;
 }
 
 void fillRandomData(sensors_event_t *humidity, sensors_event_t *temp)

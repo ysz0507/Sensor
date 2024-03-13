@@ -3,7 +3,15 @@
 #include <Arduino.h>
 #include <Adafruit_AHTX0.h>
 
+struct Measurement
+{
+    String json;
+    sensors_event_t temperature;
+    sensors_event_t humidity;
+    long long time;
+};
+
 void setupSensor();
-String getSensorData();
+Measurement getSensorData();
 String getAllMeasurements();
-const char *addMeasurement();
+Measurement addMeasurement();

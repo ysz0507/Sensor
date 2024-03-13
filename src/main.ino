@@ -23,14 +23,14 @@ void setup()
                {String website = getSite(); 
                 server->send(200, "text/html", website); });
     server->on("/authorize.html", [server]()
-               {String website = getAuthSite(); 
+               {String website = "The mobile authorization is not implemented"; 
                 server->send(200, "text/html", website); });
     server->on("/status.json", [server]()
                {server->sendHeader("Access-Control-Allow-Origin", "*");
                 server->send(200, "text/html", "I am online"); });
     server->on("/current.json", [server]()
                {server->sendHeader("Access-Control-Allow-Origin", "*");
-                server->send(200, "application/json", getSensorData()); });
+                server->send(200, "application/json", getSensorData().json); });
     server->on("/all.json", [server]()
                {server->sendHeader("Access-Control-Allow-Origin", "*");
                 server->send(200, "application/json", getAllMeasurements()); });
@@ -67,8 +67,8 @@ void loop()
     serverLoop();
     if (getTime() - lastMeasurement > 1000 * 10)
     {
-        const char *measurement = addMeasurement();
-        messageLoop(measurement);
+        Measurement measurement = addMeasurement();
+        messageLoop(measurement.temperature, measurement.humidity, String("Testsensor"));
         lastMeasurement = getTime();
     }
     digitalWrite(led, HIGH);

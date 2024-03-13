@@ -12,6 +12,7 @@ String joy_callmebot = "https://signal.callmebot.com/signal/send.php?phone=khnsk
 
 #include "messages.h"
 #include "server.h"
+#include "sensor.h"
 
 /*
     Input:
@@ -21,10 +22,53 @@ String joy_callmebot = "https://signal.callmebot.com/signal/send.php?phone=khnsk
     "time": 1710362790183
     }
 */
-void messageLoop(const char *lastMeasurement)
-{
 
-    Serial.println(lastMeasurement);
-    // requestUrl(simon_callmebot + String("Hi"));
-    // requestUrl(joy_callmebot + String("Hi"));
+String lastMessage = "";
+
+void messageLoop(sensors_event_t lastTemperature, sensors_event_t lastHumitity, String name)
+{
+    float humidity = lastHumitity.relative_humidity, temperature = lastTemperature.temperature;
+
+    String message = name + String("%3A+");
+    if (humidity < 30)
+    {
+        if (temperature > 28)
+        {
+            // Mach mal die Heizung aus
+            message += String("Vergiss+nicht+die+Heiung+auszuschalten%21");
+        }
+        if (temperature < 20)
+        {
+            // Fenster zu!
+            message += String("Fenster+schließen+nicht+vergessen");
+        }
+    }
+    else if (humidity > 70)
+    {
+        if (temperature < 20)
+        {
+            // Achtung Schimmelgefahr!
+            message += String("Achtung+Schimmelgefahr!+Am+besten+stoßl&uuml;ften+und+danach+die+Heizung+anschalten.");
+        }
+        else if (temperature < 28)
+        {
+            // Du solltest mal lüften
+            message += String("L&uuml;ften+nicht+vergessen");
+        }
+        else
+        {
+            // Nach dem duschen lüften nicht vergessen
+            message += String("Nach+dem+Duschen+unbedingt+l&uuml;ften%21");
+        }
+    }
+    if (message == lastMessage || message == name + String("%3A+"))
+    {
+        return;
+    }
+    lastMessage = message;
+    message += String("%0ATemperatur%3A+") + String(temperature) + String("°C");
+    message += String("%0ARelative Luftfeuchtigkeit%3A+") + String(humidity) + String("r.H.");
+    Serial.println(message);
+    requestUrl(simon_callmebot + message);
+    // requestUrl(joy_callmebot + message);
 }
